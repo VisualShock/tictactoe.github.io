@@ -45,7 +45,7 @@ blocks.forEach(element => {
                 })
                 .then(data => {
                     if (data.ok) {
-                        console.log(e.target.childNodes);
+
                         if (!e.target.childNodes.length) {
                             e.target.insertAdjacentHTML('afterbegin', mark);
                         }
@@ -66,15 +66,17 @@ blocks.forEach(element => {
                         })
                         .then(data => {
                             const dataMove = document.querySelector(`[data-number='${data.data.move}']`)
-                            if (!data.data.win) {
-                                if (!dataMove.childNodes.length) {//защита от дурака, если много раз клацать, на кнопку, то уже не появится много элементов
-                                    const div = document.createElement('div');
-                                    div.classList.add('zero');
-                                    dataMove.appendChild(div);
 
-                                }
-                            } else {              
-                                    alert('you win');
+
+                            if (!dataMove.childNodes.length) {//защита от дурака, если много раз клацать, на кнопку, то уже не появится много элементов
+                                const div = document.createElement('div');
+                                div.classList.add('zero');
+                                dataMove.appendChild(div);
+
+                            }
+                            if (data.data.win === 0) {
+
+                                alert('you lost');
                             }
 
                         })
