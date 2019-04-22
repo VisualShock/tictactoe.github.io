@@ -77,4 +77,56 @@ html{
     padding: 10px;
     font-size: 18px;
     text-align: center;
+    outline: none;
+}
+#player:hover, #player:active{
+    
+}
+.player-success{
+    border: green solid 1px;
+    box-shadow: inset 0 0 2px green;
+}
+.player-wrong{
+    border: tomato solid 1px;
+    box-shadow: inset 0 0 2px tomato;
+    
+}
+.shaking{
+    animation: .8s wrong;
+}
+.spinner{
+    z-index: 9999;
+    display: none;
+    position: fixed;
+    background-color: rgba(0,0,0, .3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background-image: url(./Blocks-1.8s-200px.gif);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: 20%;
+    color: black;
+    font-size: 50px;
+    font-weight: 300;
+    text-align: center;
+}
+@keyframes wrong{
+    0% { 
+        transform: translate(0%);
+    }
+    25%{
+        transform: translate(5%);
+    }
+    50%{
+        transform: translate(-5%);
+    }
+    75%{
+        transform: translate(1%);
+    }
+    100%{
+        transform: translate(0%);
+    }
 }
