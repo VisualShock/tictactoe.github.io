@@ -23,7 +23,7 @@ document.querySelector('.btn').addEventListener('click', function initGame() {
         player.classList.add('player-wrong');
         player.classList.add('shaking');
     } else {
-        
+
         name = player.value;
         if (player.classList.contains('player-wrong')) {
             player.classList.toggle('player-wrong');
@@ -40,27 +40,32 @@ document.querySelector('.btn').addEventListener('click', function initGame() {
                 name = player.value;
                 makeMove(element.dataset.number)
                     .then(response => {
-                        return response.json();
+                        console.log(response.status)
+                        if (response.status != /40*/ || response.status != /50*/) {
+                            return response.json();
+                        } else {
+                            throw new Error(`you have an error number ${response.status}`)
+                        }
                     })
                     .then(data => {
                         if (data.ok) {
-                            
+
                             if (!e.target.childNodes.length) {
                                 e.target.insertAdjacentHTML('afterbegin', mark);
-                                
+
                             }
                             if (!data.data.win) {
-                                
+
                                 return data.data.move;
                             }
                             else {//////////КОСТЫЛЬ!!!
-                                spinner.style.zIndex= '-111111';//нужна помощь в том, как прервать выполнение, что бы потом не добавлялся спиннер
-                                spinner.style.backgroundColor= 'white';
+                                spinner.style.zIndex = '-111111';//нужна помощь в том, как прервать выполнение, что бы потом не добавлялся спиннер
+                                spinner.style.backgroundColor = 'white';
 
                                 ////КОСТЫЛЬ!!!
                                 player.classList.add('shaking');
                                 player.value = 'win';
-                                
+
                             }
                         }
 
@@ -69,7 +74,7 @@ document.querySelector('.btn').addEventListener('click', function initGame() {
                         spinner.style.display = 'block';
                         waitMove()
                             .then((response, reject) => {
-                                
+
                                 return response.json();
                             })
                             .then(data => {
@@ -81,14 +86,14 @@ document.querySelector('.btn').addEventListener('click', function initGame() {
                                     const div = document.createElement('div');
                                     div.classList.add('zero');
                                     dataMove.appendChild(div);
-                                    
+
                                 }
                                 if (data.data.win === 0) {
                                     spinner.style.display = 'none';
                                     player.value = 'next time, bro';
                                     if (!player.classList.contains('player-wrong')) {
                                         player.classList.toggle('player-wrong');
-                                        
+
                                     }
                                     player.classList.add('shaking');
                                 }
@@ -97,6 +102,9 @@ document.querySelector('.btn').addEventListener('click', function initGame() {
                             .catch(reject => {
                                 console.log(reject);
                             })
+                    })
+                    .catch(error => {
+                        console.log(error.name + ': ' + error.message);
                     })
 
             })
@@ -132,7 +140,7 @@ function canPlay() {
 };
 
 function makeMove(move) {
-    
+
     return fetch(`${api}makeMove`, {
         method: 'POST',
         body: JSON.stringify({ move, id, name }),
@@ -141,7 +149,7 @@ function makeMove(move) {
 }
 
 function waitMove() {
-    
+
     return fetch(`${api}waitMove`, {
         method: "POST",
         body: JSON.stringify({ name, id }),
