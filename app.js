@@ -85,7 +85,7 @@ document.querySelector('.btn').addEventListener('click', function initGame() {
                                 }
                                 if (data.data.win === 0) {
                                     spinner.style.display = 'none';
-                                    player.value = 'you lost';
+                                    player.value = 'next time, bro';
                                     if (!player.classList.contains('player-wrong')) {
                                         player.classList.toggle('player-wrong');
                                         
